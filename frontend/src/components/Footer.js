@@ -2,9 +2,11 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div>
-      footer
-    </div>
+    <footer className='bg-slate-200'>
+      <div className='container mx-auto p-4'>
+        <p className='text-center font-bold'>Connect With Us.</p>
+      </div>
+    </footer>
   )
 }
 
