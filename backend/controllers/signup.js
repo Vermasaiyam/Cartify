@@ -34,7 +34,7 @@ async function Signup(req, res) {
 
         const payload = {
             ...req.body,
-            // role: "GENERAL",
+            role: "GENERAL",
             password: hashPassword
         }
 
