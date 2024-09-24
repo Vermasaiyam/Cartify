@@ -4,8 +4,15 @@ import { FaSearch } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdCart } from "react-icons/io";
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+
+    const user = useSelector(state => state.user);
+
+    console.log("user", user);
+    
+
     return (
         <header className='h-16 shadow-md bg-white fixed w-full z-40'>
             <div className=" h-full container mx-auto flex items-center px-4 justify-between">
