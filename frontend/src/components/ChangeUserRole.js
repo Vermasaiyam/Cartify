@@ -9,8 +9,8 @@ const ChangeUserRole = ({
     email,
     role,
     onClose,
-    // userId,
-    // callFunc,
+    userId,
+    callFunc,
 }) => {
 
     const [userRole, setUserRole] = useState(role);
@@ -35,17 +35,17 @@ const ChangeUserRole = ({
         const responseData = await fetchResponse.json()
 
         if (responseData.success) {
-            toast.success(responseData.message)
-            onClose()
-            // callFunc()
+            toast.success(responseData.message);
+            onClose();
+            callFunc()
         }
 
-        console.log("role updated", responseData)
+        console.log("role updated", responseData);
 
     }
 
     return (
-        <div className='fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center '>
+        <div className='fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center bg-slate-200 bg-opacity-50'>
             <div className="mx-auto bg-white shadow-md p-4 w-full max-w-sm">
                 <button className='block ml-auto' onClick={onClose}>
                     <IoMdClose />
