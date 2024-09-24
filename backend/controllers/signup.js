@@ -4,7 +4,16 @@ const bcrypt = require('bcryptjs');
 
 async function Signup(req, res) {
     try {
-        const { email, password, name } = req.body
+        const { email, password, name } = req.body;
+
+        console.log(req.body);
+
+        const user = await userModel.findOne({email});
+
+        if(user){
+            throw new Error("Already user exits.")
+        }
+        
 
         if (!email) {
             throw new Error("Please enter your email.")
@@ -42,7 +51,7 @@ async function Signup(req, res) {
 
     } catch (error) {
         res.json({
-            message: err.message || err,
+            message: error.message || error,
             error: true,
             success: false,
         });

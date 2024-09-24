@@ -4,11 +4,15 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
+import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+    const navigate = useNavigate();
 
     const [data, setData] = useState({
         email: "",
@@ -49,30 +53,30 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // if (data.password === data.confirmPassword) {
+        if (data.password === data.confirmPassword) {
 
-        //     const dataResponse = await fetch(SummaryApi.signUP.url, {
-        //         method: SummaryApi.signUP.method,
-        //         headers: {
-        //             "content-type": "application/json"
-        //         },
-        //         body: JSON.stringify(data)
-        //     })
+            const response = await fetch(SummaryApi.signUP.url, {
+                method: SummaryApi.signUP.method,
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
 
-        //     const dataApi = await dataResponse.json()
+            const api = await response.json()
 
-        //     if (dataApi.success) {
-        //         toast.success(dataApi.message)
-        //         navigate("/login")
-        //     }
+            if (api.success) {
+                toast.success(api.message)
+                navigate("/login")
+            }
 
-        //     if (dataApi.error) {
-        //         toast.error(dataApi.message)
-        //     }
+            if (api.error) {
+                toast.error(api.message)
+            }
 
-        // } else {
-        //     toast.error("Please check password and confirm password")
-        // }
+        } else {
+            toast.error("Password and Confirm Password does not match.")
+        }
 
     }
 
