@@ -17,6 +17,10 @@ const SummaryApi = {
         url : `${domain}/api/userLogout`,
         method : 'get'
     },
+    admin_panel : {
+        url : `${domain}/api/adminPanel`,
+        method : 'get'
+    },
 }
 
 
