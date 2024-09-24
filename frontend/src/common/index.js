@@ -21,6 +21,10 @@ const SummaryApi = {
         url : `${domain}/api/adminPanel`,
         method : 'get'
     },
+    allUsers : {
+        url : `${domain}/api/all-users`,
+        method : 'get'
+    },
 }
 
 
