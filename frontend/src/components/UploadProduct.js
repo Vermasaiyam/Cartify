@@ -4,6 +4,7 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import productCategory from '../helpers/productCategory';
 import uploadImage from '../helpers/uploadImage';
 import { MdDelete } from "react-icons/md";
+import FullImage from './FullImage';
 
 const UploadProduct = ({ onClose }) => {
 
@@ -16,18 +17,24 @@ const UploadProduct = ({ onClose }) => {
         price: "",
         sellingPrice: ""
     })
-    const [uploadProductImageInput, setUploadProductImageInput] = useState("");
+    const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
+    const [fullScreenImage, setFullScreenImage] = useState("");
 
     const handleOnChange = (e) => {
+        const { name, value } = e.target;
 
+        setData((preve) => {
+            return {
+                ...preve,
+                [name]: value
+            };
+        });
     }
 
     const handleUploadProduct = async (e) => {
         const file = e.target.files[0];
-        setUploadProductImageInput(file.name);
 
         const uploadImageCloudinary = await uploadImage(file);
-        console.log(uploadImageCloudinary.url);
 
         setData((preve) => {
             return {
@@ -36,6 +43,23 @@ const UploadProduct = ({ onClose }) => {
             }
         })
 
+    }
+
+    const handleDeleteProductImage = async (index) => {
+        const newProductImage = [...data.productImage];
+        newProductImage.splice(index, 1);
+
+        setData((preve) => {
+            return {
+                ...preve,
+                productImage: [...newProductImage]
+            }
+        })
+    }
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        
     }
 
     return (
@@ -50,7 +74,7 @@ const UploadProduct = ({ onClose }) => {
 
                 <form
                     className='grid p-4 gap-2 overflow-y-scroll h-full pb-5'
-                // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                 >
                     <label htmlFor='productName'>Product Name :</label>
                     <input
@@ -125,13 +149,13 @@ const UploadProduct = ({ onClose }) => {
                                                         height={80}
                                                         className='bg-slate-100 border cursor-pointer'
                                                         onClick={() => {
-                                                            // setOpenFullScreenImage(true)
-                                                            // setFullScreenImage(el)
+                                                            setOpenFullScreenImage(true)
+                                                            setFullScreenImage(el)
                                                         }} />
 
                                                     <div
                                                         className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer'
-                                                        // onClick={() => handleDeleteProductImage(index)}
+                                                        onClick={() => handleDeleteProductImage(index)}
                                                     >
                                                         <MdDelete />
                                                     </div>
@@ -191,6 +215,14 @@ const UploadProduct = ({ onClose }) => {
                     <button className='px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700'>Upload Product</button>
                 </form>
             </div>
+
+
+            {
+                openFullScreenImage && (
+                    <FullImage onClose={() => setOpenFullScreenImage(false)} url={fullScreenImage} />
+                )
+            }
+
         </div>
     )
 }
