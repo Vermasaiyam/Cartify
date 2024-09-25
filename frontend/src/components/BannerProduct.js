@@ -19,7 +19,7 @@ const BannerProduct = () => {
         image2,
         image3,
         image4,
-        image5
+        image5,
     ]
 
     const mobileImages = [
@@ -27,7 +27,7 @@ const BannerProduct = () => {
         image2Mobile,
         image3Mobile,
         image4Mobile,
-        image5Mobile
+        image5Mobile,
     ]
 
 
