@@ -5,6 +5,8 @@ import productCategory from '../helpers/productCategory';
 import uploadImage from '../helpers/uploadImage';
 import { MdDelete } from "react-icons/md";
 import FullImage from './FullImage';
+import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 
 const UploadProduct = ({ onClose }) => {
 
@@ -57,9 +59,30 @@ const UploadProduct = ({ onClose }) => {
         })
     }
 
-    const handleSubmit = async(e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
+        const response = await fetch(SummaryApi.uploadProduct.url, {
+            method: SummaryApi.uploadProduct.method,
+            credentials: 'include',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const responseData = await response.json();
+
+        if (responseData.success) {
+            toast.success(responseData?.message);
+            onClose();
+            // fetchData();
+        }
+
+
+        if (responseData.error) {
+            toast.error(responseData?.message);
+        }
     }
 
     return (

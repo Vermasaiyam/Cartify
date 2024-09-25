@@ -6,7 +6,7 @@ const userDetailsController = require('../controllers/userDetails');
 const Logout = require('../controllers/logout');
 const allUsers = require('../controllers/allUsers');
 const updateUser = require('../controllers/updateUser');
-const { default: uploadProduct } = require('../controllers/uploadProduct');
+const UploadProductController = require('../controllers/uploadProduct');
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get("/all-users",authToken ,allUsers);
 router.post("/update-user",authToken ,updateUser);
 
 //upload new product
-router.post('/upload-product',authToken ,uploadProduct);
+router.post('/upload-product',authToken ,UploadProductController);
 
 
 

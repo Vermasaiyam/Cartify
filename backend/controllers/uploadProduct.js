@@ -1,8 +1,9 @@
+const uploadProductPermission = require("../helpers/permission");
 const productModel = require("../models/productModel");
 
-const uploadProduct = async (req, res) => {
+async function UploadProductController(req,res){
     try {
-        const sessionUserId = req.userId
+        const sessionUserId = req.userId;
 
         if(!uploadProductPermission(sessionUserId)){
             throw new Error("Permission denied");
@@ -27,4 +28,4 @@ const uploadProduct = async (req, res) => {
     }
 }
 
-export default uploadProduct;
+module.exports = UploadProductController;
