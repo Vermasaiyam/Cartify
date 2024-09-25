@@ -1,14 +1,15 @@
 const express = require('express');
-const Signup = require('../controllers/signup');
-const Login = require('../controllers/login');
+const Signup = require('../controllers/user/signup');
+const Login = require('../controllers/user/login');
 const authToken = require('../middleware/authToken');
-const userDetailsController = require('../controllers/userDetails');
-const Logout = require('../controllers/logout');
-const allUsers = require('../controllers/allUsers');
-const updateUser = require('../controllers/updateUser');
-const UploadProductController = require('../controllers/uploadProduct');
-const getProductController = require('../controllers/getProduct');
-const updateProductController = require('../controllers/updateProduct');
+const userDetailsController = require('../controllers/user/userDetails');
+const Logout = require('../controllers/user/logout');
+const allUsers = require('../controllers/user/allUsers');
+const updateUser = require('../controllers/user/updateUser');
+const UploadProductController = require('../controllers/product/uploadProduct');
+const getProductController = require('../controllers/product/getProduct');
+const updateProductController = require('../controllers/product/updateProduct');
+const getCategoryProduct = require('../controllers/product/getCategoryProduct');
 
 const router = express.Router();
 
@@ -25,6 +26,7 @@ router.post("/update-user",authToken ,updateUser);
 router.post('/upload-product',authToken ,UploadProductController);
 router.get('/get-product',getProductController);
 router.post('/update-product',authToken ,updateProductController);
+router.get('/get-categoryProduct',getCategoryProduct);
 
 
 
