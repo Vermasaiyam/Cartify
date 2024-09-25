@@ -33,7 +33,7 @@ const SummaryApi = {
         url : `${domain}/api/upload-product`,
         method : 'post'
     },
-    getProduct : {
+    allProduct : {
         url : `${domain}/api/get-product`,
         method : 'get'
     },
