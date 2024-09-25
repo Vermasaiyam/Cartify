@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { CgClose } from "react-icons/cg";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import productCategory from '../helpers/productCategory';
+import uploadImage from '../helpers/uploadImage';
+import { MdDelete } from "react-icons/md";
 
 const UploadProduct = ({ onClose }) => {
 
@@ -14,15 +16,18 @@ const UploadProduct = ({ onClose }) => {
         price: "",
         sellingPrice: ""
     })
+    const [uploadProductImageInput, setUploadProductImageInput] = useState("");
 
     const handleOnChange = (e) => {
 
     }
 
     const handleUploadProduct = async (e) => {
-        console.log(e);
-        const file = e.target.files[0]
-        const uploadImageCloudinary = await uploadImage(file)
+        const file = e.target.files[0];
+        setUploadProductImageInput(file.name);
+
+        const uploadImageCloudinary = await uploadImage(file);
+        console.log(uploadImageCloudinary.url);
 
         setData((preve) => {
             return {
@@ -30,6 +35,7 @@ const UploadProduct = ({ onClose }) => {
                 productImage: [...preve.productImage, uploadImageCloudinary.url]
             }
         })
+
     }
 
     return (
@@ -104,7 +110,7 @@ const UploadProduct = ({ onClose }) => {
                         </div>
                     </label>
 
-                    {/* <div>
+                    <div>
                         {
                             data?.productImage[0] ? (
                                 <div className='flex items-center gap-2'>
@@ -119,11 +125,14 @@ const UploadProduct = ({ onClose }) => {
                                                         height={80}
                                                         className='bg-slate-100 border cursor-pointer'
                                                         onClick={() => {
-                                                            setOpenFullScreenImage(true)
-                                                            setFullScreenImage(el)
+                                                            // setOpenFullScreenImage(true)
+                                                            // setFullScreenImage(el)
                                                         }} />
 
-                                                    <div className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer' onClick={() => handleDeleteProductImage(index)}>
+                                                    <div
+                                                        className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer'
+                                                        // onClick={() => handleDeleteProductImage(index)}
+                                                    >
                                                         <MdDelete />
                                                     </div>
                                                 </div>
@@ -137,7 +146,7 @@ const UploadProduct = ({ onClose }) => {
                             )
                         }
 
-                    </div> */}
+                    </div>
 
                     <label htmlFor='price' className='mt-3'>Price :</label>
                     <input
