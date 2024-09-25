@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { MdModeEditOutline } from 'react-icons/md'
 import AdminEditProduct from './AdminEditProduct';
+import rupeeSymbol from '../helpers/rupeeSymbol';
 
 const AdminProductCard = ({ data, fetchdata }) => {
     const [editProduct, setEditProduct] = useState(false);
@@ -15,7 +16,7 @@ const AdminProductCard = ({ data, fetchdata }) => {
                 <div>
                     <p className='font-semibold'>
                         {
-                            // displayINRCurrency(data.sellingPrice)
+                           `${rupeeSymbol(data.sellingPrice)} /-`
                         }
                     </p>
                     <div
