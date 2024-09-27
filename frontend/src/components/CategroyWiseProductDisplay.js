@@ -1,14 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct';
 import rupeeSymbol from '../helpers/rupeeSymbol';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import addToCart from '../helpers/addToCart';
+import Context from '../context';
 
 const CategroyWiseProductDisplay = ({ category, heading }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const loadingList = new Array(13).fill(null);
+
+    const { fetchUserAddToCart } = useContext(Context);
 
     const fetchData = async () => {
         setLoading(true);
@@ -25,6 +28,7 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
 
     const handleAddToCart = async (e, id) => {
         await addToCart(e, id);
+        fetchUserAddToCart();
     }
 
     return (

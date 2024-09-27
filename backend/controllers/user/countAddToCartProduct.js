@@ -8,6 +8,8 @@ const countAddToCartProduct = async (req, res) => {
             userId: userId,
         });
 
+        console.log("count backend - ", count);
+        
         res.json({
             data: {
                 count: count

@@ -12,7 +12,7 @@ const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const {fetchUserDetails} = useContext(Context);
+    const {fetchUserDetails, fetchUserAddToCart} = useContext(Context);
 
     const [data, setData] = useState({
         email: "",
@@ -49,7 +49,7 @@ const Login = () => {
             toast.success(Api.message);
             navigate('/');
             fetchUserDetails();
-            // fetchUserAddToCart()
+            fetchUserAddToCart();
         }
 
         if (Api.error) {

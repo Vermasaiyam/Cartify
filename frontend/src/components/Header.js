@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaSearch } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdCart } from "react-icons/io";
@@ -8,15 +8,17 @@ import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 import { setUserDetails } from '../store/userSlice';
 import ROLE from '../common/role';
+import Context from '../context';
 
 const Header = () => {
+    const user = useSelector(state => state?.user?.user);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const context = useContext(Context);
 
     const [menuDisplay, setMenuDisplay] = useState(false);
 
-    const user = useSelector(state => state?.user?.user);
 
     console.log("user", user);
 
@@ -88,12 +90,17 @@ const Header = () => {
                         }
 
                     </div>
-                    <div className="text-3xl cursor-pointer relative">
-                        <span><IoMdCart /></span>
-                        <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
-                            <p className='text-sm'>0</p>
-                        </div>
-                    </div>
+
+                    {
+                        user?._id && (
+                            <div className="text-3xl cursor-pointer relative">
+                                <span><IoMdCart /></span>
+                                <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
+                                    <p className='text-sm'>{context?.cartProductCount}</p>
+                                </div>
+                            </div>
+                        )
+                    }
                     <div>
                         {
                             user?._id ? (
