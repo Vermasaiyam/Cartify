@@ -18,9 +18,7 @@ const Header = () => {
     const context = useContext(Context);
 
     const [menuDisplay, setMenuDisplay] = useState(false);
-
-
-    console.log("user", user);
+    const [search, setSearch] = useState("");
 
     const handleLogout = async () => {
         const fetchData = await fetch(SummaryApi.logout.url, {
@@ -39,7 +37,17 @@ const Header = () => {
         if (data.error) {
             toast.error(data.message);
         }
+    }
 
+    const handleSearch = (e) => {
+        const { value } = e.target;
+        setSearch(value);
+
+        if (value) {
+            navigate(`/search?q=${value}`);
+        } else {
+            navigate("/search");
+        }
     }
 
     return (
@@ -53,7 +61,7 @@ const Header = () => {
                 </div>
 
                 <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2'>
-                    <input type='text' placeholder='Search products...' className='w-full outline-none' />
+                    <input type='text' placeholder='Search products...' className='w-full px-1.5 outline-none' onChange={handleSearch} />
                     <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
                         <FaSearch />
                     </div>
