@@ -1,65 +1,69 @@
 const domain = "http://localhost:8000"
 
 const SummaryApi = {
-    signUP : {
-        url : `${domain}/api/signup`,
-        method : "post"
+    signUP: {
+        url: `${domain}/api/signup`,
+        method: "post"
     },
-    logIn : {
-        url : `${domain}/api/login`,
-        method : "post"
+    logIn: {
+        url: `${domain}/api/login`,
+        method: "post"
     },
-    current_user : {
-        url : `${domain}/api/user-details`,
-        method : "get"
+    current_user: {
+        url: `${domain}/api/user-details`,
+        method: "get"
     },
-    logout : {
-        url : `${domain}/api/userLogout`,
-        method : 'get'
+    logout: {
+        url: `${domain}/api/userLogout`,
+        method: 'get'
     },
-    admin_panel : {
-        url : `${domain}/api/adminPanel`,
-        method : 'get'
+    admin_panel: {
+        url: `${domain}/api/adminPanel`,
+        method: 'get'
     },
-    allUsers : {
-        url : `${domain}/api/all-users`,
-        method : 'get'
+    allUsers: {
+        url: `${domain}/api/all-users`,
+        method: 'get'
     },
-    updateUser : {
-        url : `${domain}/api/update-user`,
-        method : 'post'
+    updateUser: {
+        url: `${domain}/api/update-user`,
+        method: 'post'
     },
-    uploadProduct : {
-        url : `${domain}/api/upload-product`,
-        method : 'post'
+    uploadProduct: {
+        url: `${domain}/api/upload-product`,
+        method: 'post'
     },
-    allProduct : {
-        url : `${domain}/api/get-product`,
-        method : 'get'
+    allProduct: {
+        url: `${domain}/api/get-product`,
+        method: 'get'
     },
-    updateProduct : {
-        url : `${domain}/api/update-product`,
-        method : 'post'
+    updateProduct: {
+        url: `${domain}/api/update-product`,
+        method: 'post'
     },
-    categoryProduct : {
-        url : `${domain}/api/get-categoryProduct`,
-        method : 'get'
+    categoryProduct: {
+        url: `${domain}/api/get-categoryProduct`,
+        method: 'get'
     },
-    categoryWiseProduct : {
-        url : `${domain}/api/category-product`,
-        method : 'post'
+    categoryWiseProduct: {
+        url: `${domain}/api/category-product`,
+        method: 'post'
     },
-    productDetails : {
-        url : `${domain}/api/product-details`,
-        method : 'post'
+    productDetails: {
+        url: `${domain}/api/product-details`,
+        method: 'post'
     },
-    addToCart : {
-        url : `${domain}/api/addtocart`,
-        method : 'post'
+    addToCart: {
+        url: `${domain}/api/addtocart`,
+        method: 'post'
     },
-    addToCartProductCount : {
-        url : `${domain}/api/countAddToCartProduct`,
-        method : 'get'
+    addToCartProductCount: {
+        url: `${domain}/api/countAddToCartProduct`,
+        method: 'get'
+    },
+    addToCartProductView: {
+        url: `${domain}/api/view-cart-product`,
+        method: 'get'
     },
 
 }
