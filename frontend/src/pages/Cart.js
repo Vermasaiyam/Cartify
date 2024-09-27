@@ -37,15 +37,62 @@ const Cart = () => {
         handleLoading();
         // console.log("products", data);
         setLoading(false);
-    }, []);
+    }, [data]);
 
 
-    const increaseQty = async (e, id, qty) => {
-        // e?.stopPropagation();
-        // e?.preventDefault();
+    const increaseQty = async(id,qty) =>{
+        const response = await fetch(SummaryApi.updateCartProduct.url,{
+            method : SummaryApi.updateCartProduct.method,
+            credentials : 'include',
+            headers : {
+                "content-type" : 'application/json'
+            },
+            body : JSON.stringify(
+                {   
+                    _id : id,
+                    quantity : qty + 1
+                }
+            )
+        })
 
-        const response = await fetch(SummaryApi.updateCartProduct.url, {
-            method: SummaryApi.updateCartProduct.method,
+        const responseData = await response.json()
+
+
+        if(responseData.success){
+            fetchData()
+        }
+    }
+
+
+    const decreaseQty = async(id,qty) =>{
+       if(qty >= 2){
+            const response = await fetch(SummaryApi.updateCartProduct.url,{
+                method : SummaryApi.updateCartProduct.method,
+                credentials : 'include',
+                headers : {
+                    "content-type" : 'application/json'
+                },
+                body : JSON.stringify(
+                    {   
+                        _id : id,
+                        quantity : qty - 1
+                    }
+                )
+            })
+
+            const responseData = await response.json()
+
+
+            if(responseData.success){
+                fetchData()
+            }
+        }
+    }
+
+
+    const deleteCartProduct = async (id) => {
+        const response = await fetch(SummaryApi.deleteCartProduct.url, {
+            method: SummaryApi.deleteCartProduct.method,
             credentials: 'include',
             headers: {
                 "content-type": 'application/json'
@@ -53,48 +100,20 @@ const Cart = () => {
             body: JSON.stringify(
                 {
                     _id: id,
-                    quantity: qty + 1,
                 }
             ),
         });
 
         const responseData = await response.json();
 
-
         if (responseData.success) {
             fetchData();
+            context.fetchUserAddToCart();
         }
     }
 
-
-    const decraseQty = async (e, id, qty) => {
-        // e?.stopPropagation();
-        // e?.preventDefault();
-
-        if (qty >= 2) {
-            const response = await fetch(SummaryApi.updateCartProduct.url, {
-                method: SummaryApi.updateCartProduct.method,
-                credentials: 'include',
-                headers: {
-                    "content-type": 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        _id: id,
-                        quantity: qty - 1
-                    }
-                )
-            });
-
-            const responseData = await response.json();
-
-
-            if (responseData.success) {
-                fetchData();
-            }
-        }
-    }
-
+    const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantity,0);
+    const totalPrice = data.reduce((preve,curr)=> preve + (curr.quantity * curr?.productId?.sellingPrice) ,0);
 
     return (
         <div className='container mx-auto'>
@@ -128,7 +147,7 @@ const Cart = () => {
                                         </Link>
                                         <div className='px-4 py-2 relative'>
                                             {/**delete product */}
-                                            <div className='absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer' >
+                                            <div className='absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer'  onClick={()=>deleteCartProduct(product?._id)} >
                                                 <MdDelete />
                                             </div>
 
@@ -139,9 +158,9 @@ const Cart = () => {
                                                 <p className='text-slate-600 font-semibold text-lg'>{rupeeSymbol(product?.productId?.sellingPrice * product?.quantity)}</p>
                                             </div>
                                             <div className='flex items-center gap-3 mt-1'>
-                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded z-10' onClick={(e) => decraseQty(e, product?._id, product?.quantity)} >-</button>
+                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded' onClick={() => decreaseQty( product?._id, product?.quantity)} >-</button>
                                                 <span>{product?.quantity}</span>
-                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded z-10' onClick={(e) => increaseQty(e, product?._id, product?.quantity)}>+</button>
+                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded' onClick={() => increaseQty( product?._id, product?.quantity)}>+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -160,16 +179,16 @@ const Cart = () => {
 
                             </div>
                         ) : (
-                            <div className='h-36 bg-white'>
+                            <div className='h-32 bg-white'>
                                 <h2 className='text-white bg-red-600 px-4 py-1'>Summary</h2>
                                 <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
                                     <p>Quantity</p>
-                                    {/* <p>{totalQty}</p> */}
+                                    <p>{totalQty}</p>
                                 </div>
 
                                 <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
                                     <p>Total Price</p>
-                                    {/* <p>{rupeeSymbol(totalPrice)}</p> */}
+                                    <p>{rupeeSymbol(totalPrice)}</p>
                                 </div>
 
                                 <button className='bg-blue-600 p-2 text-white w-full mt-2'>Payment</button>
