@@ -3,7 +3,7 @@ import SummaryApi from '../common';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import rupeeSymbol from '../helpers/rupeeSymbol';
-import VerticalCardProduct from '../components/VerticalCardProduct';
+import CategroyWiseProductDisplay from '../components/CategroyWiseProductDisplay';
 
 const ProductDetails = () => {
   const [data, setData] = useState({
@@ -82,7 +82,7 @@ const ProductDetails = () => {
         {/* Images */}
         <div className="h-[31rem] flex flex-col lg:flex-row-reverse gap-4">
 
-          <div className="h-[300px] w-[300px] lg:h-[31rem] lg:w-[31rem] bg-slate-200 relative">
+          <div className="h-[300px] w-[300px] lg:h-[31rem] lg:w-[31rem] bg-slate-200 relative p-2">
             <img src={activeImage} className='h-full w-full object-scale-down mix-blend-multiply' onMouseMove={handleZoomImage} onMouseLeave={handleLeaveImageZoom} />
 
             {/* zoom image */}
@@ -199,10 +199,11 @@ const ProductDetails = () => {
 
       {
         data.category && (
-          <VerticalCardProduct category={data?.category} heading={"Recommended Products"} />
+          <CategroyWiseProductDisplay category={data?.category} heading={"Recommended Products"} />
+
         )
       }
-      
+
     </div>
   )
 }
