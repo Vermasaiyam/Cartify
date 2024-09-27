@@ -35,10 +35,65 @@ const Cart = () => {
     useEffect(() => {
         setLoading(true);
         handleLoading();
-        console.log("products",data);
-        
+        // console.log("products", data);
         setLoading(false);
     }, []);
+
+
+    const increaseQty = async (e, id, qty) => {
+        // e?.stopPropagation();
+        // e?.preventDefault();
+
+        const response = await fetch(SummaryApi.updateCartProduct.url, {
+            method: SummaryApi.updateCartProduct.method,
+            credentials: 'include',
+            headers: {
+                "content-type": 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    _id: id,
+                    quantity: qty + 1,
+                }
+            ),
+        });
+
+        const responseData = await response.json();
+
+
+        if (responseData.success) {
+            fetchData();
+        }
+    }
+
+
+    const decraseQty = async (e, id, qty) => {
+        // e?.stopPropagation();
+        // e?.preventDefault();
+
+        if (qty >= 2) {
+            const response = await fetch(SummaryApi.updateCartProduct.url, {
+                method: SummaryApi.updateCartProduct.method,
+                credentials: 'include',
+                headers: {
+                    "content-type": 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        _id: id,
+                        quantity: qty - 1
+                    }
+                )
+            });
+
+            const responseData = await response.json();
+
+
+            if (responseData.success) {
+                fetchData();
+            }
+        }
+    }
 
 
     return (
@@ -67,10 +122,10 @@ const Cart = () => {
                         ) : (
                             data.map((product, index) => {
                                 return (
-                                    <Link to={`/product/${product?.productId?._id}`} key={product?._id + "Add To Cart Loading"} className='w-full bg-white h-32 my-2 border border-slate-300  rounded grid grid-cols-[128px,1fr]'>
-                                        <div className='w-32 h-32 bg-slate-200'>
+                                    <div key={product?._id + "Add To Cart Loading"} className='w-full bg-white h-32 my-2 border border-slate-300  rounded grid grid-cols-[128px,1fr]'>
+                                        <Link to={`/product/${product?.productId?._id}`} className='w-32 h-32 bg-slate-200'>
                                             <img src={product?.productId?.productImage[0]} className='w-full h-full object-scale-down mix-blend-multiply' />
-                                        </div>
+                                        </Link>
                                         <div className='px-4 py-2 relative'>
                                             {/**delete product */}
                                             <div className='absolute right-0 text-red-600 rounded-full p-2 hover:bg-red-600 hover:text-white cursor-pointer' >
@@ -84,12 +139,13 @@ const Cart = () => {
                                                 <p className='text-slate-600 font-semibold text-lg'>{rupeeSymbol(product?.productId?.sellingPrice * product?.quantity)}</p>
                                             </div>
                                             <div className='flex items-center gap-3 mt-1'>
-                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded '>-</button>
+                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded z-10' onClick={(e) => decraseQty(e, product?._id, product?.quantity)} >-</button>
                                                 <span>{product?.quantity}</span>
-                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded '>+</button>
+                                                <button className='border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded z-10' onClick={(e) => increaseQty(e, product?._id, product?.quantity)}>+</button>
                                             </div>
                                         </div>
-                                    </Link>
+                                    </div>
+                                    // </Link>
                                 )
                             })
                         )
