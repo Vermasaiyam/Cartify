@@ -92,7 +92,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                                             <p className='text-red-600 font-medium'>{rupeeSymbol(product?.sellingPrice)}</p>
                                             <p className='text-slate-500 line-through'>{rupeeSymbol(product?.price)}</p>
                                         </div>
-                                        <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full' onClick={(e) => handleAddToCart(e, product?._id)}>Add to Cart</button>
+                                        <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-full' onClick={(e) => handleAddToCart(e, product?._id)}>Add to Cart</button>
                                     </div>
                                 </Link>
                             )

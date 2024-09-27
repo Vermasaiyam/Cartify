@@ -12,7 +12,7 @@ const getProductDetails = async (req, res) => {
             error: false
         });
 
-    } catch (error) {
+    } catch (err) {
         res.json({
             message: err?.message || err,
             error: true,
