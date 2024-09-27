@@ -13,6 +13,7 @@ const getCategoryProduct = require('../controllers/product/getCategoryProductOne
 const getCategoryWiseProduct = require('../controllers/product/getCategoryWiseProduct');
 const getProductDetails = require('../controllers/product/getProductDetails');
 const addToCart = require('../controllers/user/addToCart');
+const countAddToCartProduct = require('../controllers/user/countAddToCartProduct');
 
 const router = express.Router();
 
@@ -36,6 +37,7 @@ router.post("/product-details",getProductDetails);
 
 // add to cart
 router.post("/addtocart",authToken, addToCart);
+router.get("/countAddToCartProduct",authToken,countAddToCartProduct);
 
 
 
