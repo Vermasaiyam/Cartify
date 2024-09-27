@@ -11,7 +11,7 @@ const addToCart = async(req,res)=>{
 
         if(isProductAvailable){
             return res.json({
-                message : "Already exits in Add to cart",
+                message : "Product already exits in cart.",
                 success : false,
                 error : true,
             });
@@ -29,7 +29,7 @@ const addToCart = async(req,res)=>{
 
         return res.json({
             data : saveProduct,
-            message : "Product Added in Cart",
+            message : "Product Added in Cart.",
             success : true,
             error : false
         });
