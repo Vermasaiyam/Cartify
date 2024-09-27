@@ -8,7 +8,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
     const [loading, setLoading] = useState(true);
     const loadingList = new Array(13).fill(null);
 
-    const [scroll,setScroll] = useState(0);
+    const [scroll, setScroll] = useState(0);
     const scrollElement = useRef();
 
     const fetchData = async () => {
@@ -28,10 +28,10 @@ const HorizontalCardProduct = ({ category, heading }) => {
 
     }
 
-    const scrollRight = () =>{
+    const scrollRight = () => {
         scrollElement.current.scrollLeft += 300;
     }
-    const scrollLeft = () =>{
+    const scrollLeft = () => {
         scrollElement.current.scrollLeft -= 300;
     }
 
@@ -42,8 +42,15 @@ const HorizontalCardProduct = ({ category, heading }) => {
 
             <div className='flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
 
-                <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg z-20 hidden md:block' onClick={scrollLeft}><FaAngleLeft /></button>
-                <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg z-20 hidden md:block' onClick={scrollRight}><FaAngleRight /></button>
+                {
+                    (data.length > 4) && (
+                        <div>
+                            <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg z-20 hidden md:block' onClick={scrollLeft}><FaAngleLeft /></button>
+                            <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg z-20 hidden md:block' onClick={scrollRight}><FaAngleRight /></button>
+                        </div>
+
+                    )
+                }
 
                 {
                     data.map((product, index) => {

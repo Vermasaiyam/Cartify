@@ -42,13 +42,21 @@ const VerticalCardProduct = ({ category, heading }) => {
 
             <div className='flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
 
-                <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg z-20 hidden md:block' onClick={scrollLeft}><FaAngleLeft /></button>
-                <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg z-20 hidden md:block' onClick={scrollRight}><FaAngleRight /></button>
+                {
+                    (data.length > 4) && (
+                        <div>
+                            <button className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg z-20 hidden md:block' onClick={scrollLeft}><FaAngleLeft /></button>
+                            <button className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg z-20 hidden md:block' onClick={scrollRight}><FaAngleRight /></button>
+                        </div>
+                        
+                    ) 
+                }
+
 
                 {
                     data.map((product, index) => {
                         return (
-                            <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow">
+                            <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow">
                                 <div className='bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center'>
                                     <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply' />
                                 </div>
