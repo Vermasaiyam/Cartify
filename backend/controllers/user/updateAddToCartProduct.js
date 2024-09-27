@@ -9,6 +9,7 @@ const updateAddToCartProduct = async(req, res)=>{
         const qty = req.body.quantity;
 
         const updatedProduct = await cartModel.updateOne({_id : addToCartProductId},{
+            // if change in quantity then only update otherwise spread operator
             ...(qty && {quantity : qty})
         });
 
