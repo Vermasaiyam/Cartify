@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct';
 import rupeeSymbol from '../helpers/rupeeSymbol';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+import addToCart from '../helpers/addToCart';
 
 const VerticalCardProduct = ({ category, heading }) => {
     const [data, setData] = useState([]);
@@ -24,8 +26,8 @@ const VerticalCardProduct = ({ category, heading }) => {
         fetchData();
     }, []);
 
-    const handleAddToCart = () => {
-
+    const handleAddToCart = async (e, id) => {
+        await addToCart(e, id);
     }
 
     const scrollRight = () => {
@@ -75,7 +77,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                     ) : (
                         data.map((product, index) => {
                             return (
-                                <div className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow">
+                                <Link to={"product/" + product?._id} className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow cursor-pointer">
                                     <div className='bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center'>
                                         <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply' />
                                     </div>
@@ -88,7 +90,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                                         </div>
                                         <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full' onClick={(e) => handleAddToCart(e, product?._id)}>Add to Cart</button>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         }))
                 }
