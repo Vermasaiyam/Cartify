@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import SummaryApi from '../common';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import rupeeSymbol from '../helpers/rupeeSymbol';
+import VerticalCardProduct from '../components/VerticalCardProduct';
 
 const ProductDetails = () => {
   const [data, setData] = useState({
@@ -17,8 +18,14 @@ const ProductDetails = () => {
 
   const params = useParams();
   const [loading, setLoading] = useState(true);
-  const productImageListLoading = new Array(4).fill(null)
-  const [activeImage, setActiveImage] = useState("")
+  const productImageListLoading = new Array(4).fill(null);
+  const [activeImage, setActiveImage] = useState("");
+
+  const [zoomImageCoordinate, setZoomImageCoordinate] = useState({
+    x: 0,
+    y: 0
+  });
+  const [zoomImage, setZoomImage] = useState(false);
 
 
   const fetchProductDetails = async () => {
@@ -51,14 +58,52 @@ const ProductDetails = () => {
     setActiveImage(imageURL);
   };
 
+  const handleZoomImage = useCallback((e) => {
+    setZoomImage(true);
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    console.log("coordinate", left, top, width, height);
+
+    const x = (e.clientX - left) / width;
+    const y = (e.clientY - top) / height;
+
+    setZoomImageCoordinate({
+      x,
+      y
+    });
+  }, [zoomImageCoordinate]);
+
+  const handleLeaveImageZoom = () => {
+    setZoomImage(false);
+  }
+
   return (
     <div className='container mx-auto p-4'>
-      <div className=" min-h-[400px] flex flex-col lg:flex-row gap-4">
+      <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
         {/* Images */}
         <div className="h-[31rem] flex flex-col lg:flex-row-reverse gap-4">
 
-          <div className="h-[300px] w-[300px] lg:h-[31rem] lg:w-[31rem] bg-slate-200">
-            <img src={activeImage} className='h-full w-full object-scale-down mix-blend-multiply' />
+          <div className="h-[300px] w-[300px] lg:h-[31rem] lg:w-[31rem] bg-slate-200 relative">
+            <img src={activeImage} className='h-full w-full object-scale-down mix-blend-multiply' onMouseMove={handleZoomImage} onMouseLeave={handleLeaveImageZoom} />
+
+            {/* zoom image */}
+            {
+
+              zoomImage && (
+                <div className="hidden lg:block absolute min-w-[550px] overflow-hidden min-h-[400px] bg-slate-200 p-1 -right-[570px] top-0">
+                  <div
+                    className='w-full h-full min-h-[450px] min-w-[550px] mix-blend-multiply scale-150'
+                    style={{
+                      background: `url(${activeImage})`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: `${zoomImageCoordinate.x * 100}% ${zoomImageCoordinate.y * 100}% `
+
+                    }}
+                  >
+
+                  </div>
+                </div>
+              )
+            }
           </div>
 
           <div className="h-full">
@@ -151,6 +196,13 @@ const ProductDetails = () => {
             )
         }
       </div>
+
+      {
+        data.category && (
+          <VerticalCardProduct category={data?.category} heading={"Recommended Products"} />
+        )
+      }
+      
     </div>
   )
 }
