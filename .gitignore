@@ -5,7 +5,7 @@ node_modules/
 *.log
 
 # Ignore environment files
-# .env
+.env
 
 # Ignore compiled output
 /dist

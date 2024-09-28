@@ -1,5 +1,5 @@
 // const domain = "http://localhost:8000"
-const domain = process.env.REACT_APP_BACKEND_URL
+const domain = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
 const SummaryApi = {
     signUP: {
