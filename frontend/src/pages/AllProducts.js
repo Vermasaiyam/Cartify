@@ -32,8 +32,12 @@ const AllProducts = () => {
                     Upload Product
                 </button>
             </div>
+            <div className='px-3 mt-4'>
+                <p className='font-medium text-slate-800 text-base'><span className='font-semibold text-lg'>Total Products : </span>{allProduct.length}</p>
+            </div>
 
             <div className='flex items-center flex-wrap gap-7 py-4 h-[calc(100vh-220px)] overflow-y-scroll'>
+
                 {
                     allProduct.map((product, index) => {
                         return (
@@ -48,11 +52,11 @@ const AllProducts = () => {
 
             {
                 openUploadProduct && (
-                    <UploadProduct onClose={() => setOpenUploadProduct(false)} fetchData={fetchAllProduct}/>
+                    <UploadProduct onClose={() => setOpenUploadProduct(false)} fetchData={fetchAllProduct} />
                 )
             }
         </div>
     )
 }
-;
+    ;
 export default AllProducts
