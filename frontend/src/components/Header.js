@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { FaSearch } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdCart } from "react-icons/io";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
@@ -14,11 +14,12 @@ const Header = () => {
     const user = useSelector(state => state?.user?.user);
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const context = useContext(Context);
-
     const [menuDisplay, setMenuDisplay] = useState(false);
-    const [search, setSearch] = useState("");
+    const context = useContext(Context);
+    const navigate = useNavigate();
+    const searchInput = useLocation();
+    const [search, setSearch] = useState(searchInput?.search?.split('=')[1]);
+
 
     const handleLogout = async () => {
         const fetchData = await fetch(SummaryApi.logout.url, {
@@ -61,7 +62,7 @@ const Header = () => {
                 </div>
 
                 <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2'>
-                    <input type='text' placeholder='Search products...' className='w-full px-1.5 outline-none' onChange={handleSearch} />
+                    <input type='text' placeholder='Search products...' className='w-full px-1.5 outline-none' onChange={handleSearch} value={search}/>
                     <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
                         <FaSearch />
                     </div>
