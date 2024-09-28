@@ -1,15 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import productCategory from '../helpers/productCategory';
 import SummaryApi from '../common';
 import VerticalCard from '../components/VerticalCard';
 
 const CategoyProduct = () => {
-  const params = useParams();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const urlSearch = new URLSearchParams(location.search)
+  const urlCategoryListinArray = urlSearch.getAll("category");
+
+  const urlCategoryListObject = {};
+
+  urlCategoryListinArray.forEach(el => {
+    urlCategoryListObject[el] = true;
+  });
+
+  const [selectCategory, setSelectCategory] = useState(urlCategoryListObject);
+  const [filterCategoryList, setFilterCategoryList] = useState([]);
+
+  const [sortBy,setSortBy] = useState("");
+
+  const handleSelectCategory = (e) => {
+    const { name, value, checked } = e.target;
+
+    setSelectCategory((preve) => {
+      return {
+        ...preve,
+        [value]: checked
+      };
+    });
+  };
 
 
   const fetchData = async () => {
@@ -24,8 +47,34 @@ const CategoyProduct = () => {
     });
 
     const dataResponse = await response.json();
-    setData(dataResponse?.data || []);
+    setData(dataResponse?.data.reverse() || []);
   }
+
+  useEffect(() => {
+    fetchData();
+  }, [filterCategoryList]);
+
+  useEffect(() => {
+    const arrayOfCategory = Object.keys(selectCategory).map(categoryKeyName => {
+      if (selectCategory[categoryKeyName]) {
+        return categoryKeyName;
+      }
+      return null;
+    }).filter(ele => ele);
+
+    setFilterCategoryList(arrayOfCategory);
+
+    // change url on clicking on checkbox
+    const urlFormat = arrayOfCategory.map((el,index) => {
+      if((arrayOfCategory.length - 1 ) === index  ){
+        return `category=${el}`;
+      }
+      return `category=${el}&&`;
+    })
+
+    navigate("/product-category?"+urlFormat.join(""));
+
+  }, [selectCategory]);
 
 
   return (
@@ -60,7 +109,7 @@ const CategoyProduct = () => {
                 productCategory.map((categoryName, index) => {
                   return (
                     <div className='flex items-center gap-3'>
-                      <input type='checkbox' name={"category"} value={categoryName?.value} id={categoryName?.value} />
+                      <input type='checkbox' name={"category"} checked={selectCategory[categoryName?.value]} value={categoryName?.value} id={categoryName?.value} onChange={handleSelectCategory} />
                       <label htmlFor={categoryName?.value}>{categoryName?.label}</label>
                     </div>
                   )
