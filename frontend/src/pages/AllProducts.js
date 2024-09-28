@@ -19,7 +19,16 @@ const AllProducts = () => {
 
     useEffect(() => {
         fetchAllProduct();
-    }, [])
+    }, []);
+
+    const groupedProducts = allProduct.reduce((acc, product) => {
+        const category = product.category;
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(product);
+        return acc;
+    }, {});
 
     return (
         <div>
@@ -36,7 +45,7 @@ const AllProducts = () => {
                 <p className='font-medium text-slate-800 text-base'><span className='font-semibold text-lg'>Total Products : </span>{allProduct.length}</p>
             </div>
 
-            <div className='flex items-center flex-wrap gap-7 py-4 h-[calc(100vh-220px)] overflow-y-scroll'>
+            {/* <div className='flex items-center flex-wrap gap-7 py-4 h-[calc(100vh-220px)] overflow-y-scroll'>
 
                 {
                     allProduct.map((product, index) => {
@@ -46,8 +55,28 @@ const AllProducts = () => {
                         )
                     })
                 }
-            </div>
+            </div> */}
 
+            <div className='m-2 py-4 h-[calc(100vh-220px)] overflow-y-scroll'>
+                {
+                    // Loop through each category and display its products
+                    Object.keys(groupedProducts).map((category, idx) => (
+                        <div key={idx}>
+                            {/* Category Heading */}
+                            <h2 className="text-2xl font-bold mb-4 mx-2 mt-4 capitalize">{`${category} (${groupedProducts[category].length})`}</h2>
+
+                            {/* Products under each category */}
+                            <div className='flex items-center flex-wrap gap-7'>
+                                {
+                                    groupedProducts[category].map((product, index) => (
+                                        <AdminProductCard data={product} key={index + "product"} fetchdata={fetchAllProduct} />
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
 
 
             {

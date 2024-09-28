@@ -180,16 +180,43 @@ const Cart = () => {
                             </div>
                         ) : (
                             data.length > 0 && (
-                                <div className='h-32 bg-white'>
+                                <div className='h-40 bg-white'>
                                     <h2 className='text-white bg-red-600 px-4 py-1'>Summary</h2>
                                     <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
                                         <p>Quantity</p>
                                         <p>{totalQty}</p>
                                     </div>
 
-                                    <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
+                                    <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600 '>
                                         <p>Total Price</p>
                                         <p>{rupeeSymbol(totalPrice)}</p>
+                                    </div>
+
+                                    {
+                                        totalPrice <= 599 && (
+                                            <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600 '>
+                                                <p>Delivery Fee</p>
+                                                <p>+{rupeeSymbol(299)}</p>
+                                            </div>
+                                        )
+                                    }
+
+                                    <div className='flex items-center justify-between px-1 pb-1 mx-3 gap-2 font-medium text-lg text-slate-600 border-b border-slate-400'>
+                                        <p>GST</p>
+                                        <p>+{rupeeSymbol(totalPrice * 0.18)}</p>
+                                    </div>
+
+
+
+                                    <div className='flex items-center justify-between pt-1 px-4 gap-2 font-semibold text-xl text-slate-600'>
+                                        <p>Grand Total</p>
+                                        {
+                                            totalPrice <= 599 ? (
+                                                <p>{rupeeSymbol(totalPrice + (totalPrice * 0.18) + 299)}</p>
+                                            ) : (
+                                                <p>{rupeeSymbol(totalPrice + (totalPrice * 0.18))}</p>
+                                            )
+                                        }
                                     </div>
 
                                     <button className='bg-blue-600 p-2 text-white w-full mt-2'>Payment</button>
