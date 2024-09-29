@@ -6,6 +6,12 @@ import rupeeSymbol from '../helpers/rupeeSymbol';
 import CategroyWiseProductDisplay from '../components/CategroyWiseProductDisplay';
 import addToCart from '../helpers/addToCart';
 import Context from '../context';
+// import ReactStars from "react-rating-stars-component";
+// import { useSelector, useDispatch } from "react-redux";
+// import {
+  // fetchProductDetails,
+  // newReviewRequest,
+// } from "../Redux/Product/productReducer";
 
 const ProductDetails = () => {
   const [data, setData] = useState({
@@ -17,6 +23,11 @@ const ProductDetails = () => {
     price: "",
     sellingPrice: ""
   });
+
+  // const [comment, setcomment] = useState("");
+  // const [rating, setrating] = useState(0);
+  // const dispatch = useDispatch();
+  // const { id } = useParams();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -80,16 +91,30 @@ const ProductDetails = () => {
     setZoomImage(false);
   }
 
-  const handleAddToCart = async(e,id) =>{
-    await addToCart(e,id);
+  const handleAddToCart = async (e, id) => {
+    await addToCart(e, id);
     fetchUserAddToCart();
   }
 
-  const handleBuyProduct = async(e,id)=>{
-    await addToCart(e,id);
+  const handleBuyProduct = async (e, id) => {
+    await addToCart(e, id);
     fetchUserAddToCart();
     navigate("/cart");
   }
+
+  // const handleReviewSumbit = (e) => {
+  //   e.preventDefault();
+  //   const myForm = new FormData();
+  //   myForm.set("rating", rating);
+  //   myForm.set("comment", comment);
+  //   myForm.set("productId", id);
+  //   console.log(myForm);
+  //   dispatch(newReviewRequest(myForm));
+  //   setTimeout(() => {
+  //     dispatch(fetchProductDetails(id));
+  //   }, 1000);
+
+  // };
 
   return (
     <div className='container mx-auto p-4'>
@@ -199,8 +224,8 @@ const ProductDetails = () => {
                 </div>
 
                 <div className='flex items-center gap-3 my-3'>
-                  <button className='border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white' onClick={(e)=>handleBuyProduct(e,data?._id)}>Buy Now</button>
-                  <button className='border-2 border-red-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-red-600 hover:text-red-600 hover:bg-white' onClick={(e)=>handleAddToCart(e,data?._id)}>Add To Cart</button>
+                  <button className='border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white' onClick={(e) => handleBuyProduct(e, data?._id)}>Buy Now</button>
+                  <button className='border-2 border-red-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-red-600 hover:text-red-600 hover:bg-white' onClick={(e) => handleAddToCart(e, data?._id)}>Add To Cart</button>
                 </div>
 
                 <div className=''>
@@ -212,6 +237,56 @@ const ProductDetails = () => {
         }
       </div>
 
+      {/* <div className="max-w-7xl p-0 mx-auto">
+        <h2 className="text-[#003D29] font-poppins">Reviews</h2>
+        <div className="flex flex-col md:flex-row">
+          {productDetails &&
+            productDetails.reviews &&
+            productDetails.reviews.map((review) => {
+              return <ReviewsCard key={review.user} {...review} />;
+            })}
+        </div>
+      </div>
+
+      <div className="max-w-7xl bg-white rounded-lg mx-auto">
+        <div className="text-[#0B0E3F]">
+          <div className="my-5 space-y-5 flex flex-col items-center">
+            <div className="w-full">
+              <label className="font-semibold mb-0.5">Your Review Matters !!!</label>
+              <ReactStars
+                count={5}
+                edit={true}
+                size={24}
+                isHalf={true}
+                activeColor="#ffd700"
+                value={rating}
+                onChange={(e) => {
+                  setrating(e);
+                }}
+              />
+              <textarea
+                className="border border-gray-300 resize-none w-full p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
+                rows="8"
+                placeholder="Type your review ..."
+                value={comment}
+                onChange={(e) => {
+                  setcomment(e.target.value);
+                }}
+              ></textarea>
+            </div>
+            <div className="w-full flex justify-end">
+              <button
+                className="rounded-none px-8 py-3 bg-gray-900 text-white uppercase hover:translate-y-1 hover:shadow-lg transform transition-transform"
+                onClick={handleReviewSumbit}
+              >
+                Add Review
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> */}
+
+
       {
         data.category && (
           <CategroyWiseProductDisplay category={data?.category} heading={"Recommended Products"} />
@@ -221,6 +296,38 @@ const ProductDetails = () => {
 
     </div>
   )
-}
+};
+
+
+// const ReviewsCard = ({ name, rating, comment }) => {
+//   return (
+//     <div className="flex justify-center py-6 font-poppins">
+//       <div className="max-w-[450px] w-full bg-white dark:bg-gray-900 shadow-xl rounded-lg p-6 text-center">
+//         <div className="relative mb-4">
+//           <img
+//             className="w-24 h-24 rounded-full mx-auto"
+//             src={AvtarImg}
+//             alt="Avatar"
+//           />
+//           <div className="absolute w-4 h-4 bg-green-300 border-2 border-white rounded-full bottom-0 right-3"></div>
+//         </div>
+//         <h2 className="text-2xl font-poppins">{name}</h2>
+//         <div className="flex justify-center items-center">
+//           <span className="font-bold">Rating :</span>
+//           <ReactStars
+//             count={5}
+//             edit={false}
+//             size={24}
+//             isHalf={true}
+//             activeColor="#ffd700"
+//             value={rating}
+//           />
+//         </div>
+//         <p className="text-gray-700 dark:text-gray-400 p-3">{comment}</p>
+//       </div>
+//     </div>
+//   );
+// };
+
 
 export default ProductDetails
