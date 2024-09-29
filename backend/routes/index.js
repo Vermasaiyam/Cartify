@@ -19,6 +19,7 @@ const updateAddToCartProduct = require('../controllers/user/updateAddToCartProdu
 const deleteAddToCartProduct = require('../controllers/user/deleteAddToCartProduct');
 const searchProduct = require('../controllers/product/searchProduct');
 const filterProductController = require('../controllers/product/filterProduct');
+const { createProductReview, getProductReviews, deleteReview } = require('../controllers/product/reviewController');
 
 const router = express.Router();
 
@@ -41,6 +42,10 @@ router.post("/product-details",getProductDetails);
 router.get("/search",searchProduct);
 router.post("/filter-product",filterProductController);
 
+
+// review section
+router.route("/review").put(authToken,createProductReview);
+router.route("/reviews").get(getProductReviews).delete(authToken,deleteReview);
 
 // add to cart
 router.post("/addtocart",authToken, addToCart);
