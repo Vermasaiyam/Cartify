@@ -54,6 +54,7 @@ exports.getProductReviews = async (req, res, next) => {
     });
 };
 
+
 //delete review
 exports.deleteReview = async (req, res, next) => {
     const product = await productModel.findById(req.query.productId);

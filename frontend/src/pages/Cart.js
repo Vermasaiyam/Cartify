@@ -220,7 +220,6 @@ const Cart = () => {
                                     </div>
 
                                     <button className='bg-blue-600 p-2 text-white w-full mt-2'>Payment</button>
-
                                 </div>
                             )
                         )
